@@ -782,12 +782,52 @@
 
       // Apply project name to UI elements (defensively — some elements may be optional)
       document.title = `${PROJECT_NAME} Wireframes`;
+      const hasRepo = Boolean(PROJECT_REPO);
+
+      // Sidebar heading: always shows the project name. When we know the repo,
+      // it's a real link; otherwise it stays visible but disabled-looking.
       const h1 = document.querySelector('nav h1 a');
-      if (h1) { h1.textContent = PROJECT_NAME; if (PROJECT_REPO) h1.href = PROJECT_REPO; }
+      if (h1) {
+        h1.textContent = PROJECT_NAME;
+        if (hasRepo) {
+          h1.href = PROJECT_REPO;
+          h1.removeAttribute('aria-disabled');
+          h1.style.removeProperty('opacity');
+          h1.style.removeProperty('cursor');
+          h1.style.removeProperty('pointer-events');
+          h1.title = '';
+        } else {
+          h1.removeAttribute('href');
+          h1.setAttribute('aria-disabled', 'true');
+          h1.style.opacity = '0.5';
+          h1.style.cursor = 'not-allowed';
+          h1.style.pointerEvents = 'none';
+          h1.title = 'No git remote configured — run /speckit.wireframe.view in a project with a git origin to enable this link';
+        }
+      }
+
+      // Footer Project link: same treatment — visible but disabled when no repo
       const pl = document.getElementById('project-link');
-      if (pl && PROJECT_REPO) pl.href = PROJECT_REPO;
       const plt = document.getElementById('project-link-text');
       if (plt) plt.textContent = PROJECT_NAME;
+      if (pl) {
+        if (hasRepo) {
+          pl.href = PROJECT_REPO;
+          pl.removeAttribute('aria-disabled');
+          pl.style.removeProperty('opacity');
+          pl.style.removeProperty('cursor');
+          pl.style.removeProperty('pointer-events');
+          pl.title = 'Project repository';
+        } else {
+          pl.removeAttribute('href');
+          pl.setAttribute('aria-disabled', 'true');
+          pl.style.opacity = '0.5';
+          pl.style.cursor = 'not-allowed';
+          pl.style.pointerEvents = 'none';
+          pl.title = 'No git remote configured — run /speckit.wireframe.view in a project with a git origin to enable this link';
+        }
+      }
+
       const ext = document.getElementById('extension-link');
       if (ext) ext.href = EXTENSION_REPO;
       const port = document.getElementById('portfolio-link');
