@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Dark theme template for backend/architecture diagrams -->
 <!-- Full-width diagram layout (no desktop/mobile split) -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+<svg xmlns="http://www.w3.org/2000/svg"
      viewBox="0 0 1920 1080" width="1920" height="1080">
   <defs>
-    <!-- Light theme gradient (for validator compliance - not used in dark theme) -->
-    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#c7ddf5"/>
-      <stop offset="100%" stop-color="#b8d4f0"/>
-    </linearGradient>
-    <!-- Dark theme gradient (actually used) -->
     <linearGradient id="bg-dark" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#0f172a"/>
       <stop offset="100%" stop-color="#1e293b"/>
@@ -36,25 +30,6 @@
         font-size="18" font-weight="700" fill="#94a3b8" letter-spacing="1">
     FEATURE NAME - ARCHITECTURE DIAGRAM
   </text>
-
-  <!-- SECTION LABELS (for validator compliance) -->
-  <text x="680" y="52" font-family="system-ui, sans-serif" font-size="14" fill="#64748b">DESKTOP (16:9)</text>
-  <text x="1360" y="52" font-family="system-ui, sans-serif" font-size="14" fill="#64748b">MOBILE (9:16)</text>
-
-  <!-- Hidden light gradient reference (for validator G-022 compliance) -->
-  <rect x="-100" y="-100" width="1" height="1" fill="url(#bg)" opacity="0"/>
-
-  <!-- Header/Footer includes (hidden for validator HDR-001 compliance - dark templates don't use standard chrome) -->
-  <g id="desktop" opacity="0" transform="translate(-9999, -9999)">
-    <use href="includes/header-desktop.svg#desktop-header" x="0" y="0"/>
-    <use href="includes/footer-desktop.svg#site-footer" x="0" y="640"/>
-  </g>
-  <g id="mobile" opacity="0" transform="translate(-9999, -9999)">
-    <use href="includes/header-mobile.svg#mobile-header-group" x="0" y="0"/>
-    <!-- Placeholder content at valid y position (y >= 78) -->
-    <rect x="10" y="80" width="340" height="580" fill="none"/>
-    <use href="includes/footer-mobile.svg#mobile-bottom-nav" x="0" y="664"/>
-  </g>
 
   <!-- DIAGRAM AREA (full width: 1840px, height: 700px) -->
   <g id="diagram" transform="translate(40, 60)">
@@ -179,6 +154,6 @@
   <!-- SIGNATURE: 18px bold -->
   <text x="40" y="1060" fill="#94a3b8" font-family="system-ui, sans-serif"
         font-size="18" font-weight="bold">
-    NNN:NN | Feature Name | ScriptHammer
+    NNN:NN | FEATURE NAME | PROJECT
   </text>
 </svg>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Light theme template for UX wireframes -->
 <!-- Desktop + Mobile side-by-side layout -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+<svg xmlns="http://www.w3.org/2000/svg"
      viewBox="0 0 1920 1080" width="1920" height="1080">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -27,18 +27,31 @@
   <!-- DESKTOP (1280x720) -->
   <g id="desktop" transform="translate(40, 60)">
     <rect width="1280" height="720" rx="8" fill="#e8d4b8" stroke="#b8a080"/>
-    <use href="includes/header-desktop.svg#desktop-header" x="0" y="0"/>
-    <!-- UI CONTENT: y=50 to y=640 -->
-    <use href="includes/footer-desktop.svg#site-footer" x="0" y="640"/>
+
+    <!-- Header placeholder (replace with your app's top chrome) -->
+    <rect x="0" y="0" width="1280" height="60" fill="#dcc8a8"/>
+    <text x="24" y="38" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" fill="#1f2937">Your App</text>
+
+    <!-- UI CONTENT AREA: y=60 to y=660 (600px usable height) -->
+
+    <!-- Footer placeholder (replace with your app's bottom chrome) -->
+    <rect x="0" y="660" width="1280" height="60" fill="#dcc8a8"/>
   </g>
 
   <!-- MOBILE (360x720) -->
-  <!-- CRITICAL: Content safe area y=78 to y=664 [G-034] -->
+  <!-- Content safe area: y=78 (after header) to y=664 (before footer) -->
   <g id="mobile" transform="translate(1360, 60)">
     <rect width="360" height="720" rx="24" fill="#e8d4b8" stroke="#b8a080"/>
-    <use href="includes/header-mobile.svg#mobile-header-group" x="0" y="0"/>
-    <!-- UI CONTENT: y from 78 (after header) to 663 (before footer) -->
-    <use href="includes/footer-mobile.svg#mobile-bottom-nav" x="0" y="664"/>
+
+    <!-- Header placeholder (64px tall, accounting for status bar + app bar) -->
+    <rect x="0" y="0" width="360" height="78" rx="24" fill="#dcc8a8"/>
+    <rect x="0" y="54" width="360" height="24" fill="#dcc8a8"/>
+    <text x="20" y="52" font-family="system-ui, sans-serif" font-size="16" font-weight="bold" fill="#1f2937">Your App</text>
+
+    <!-- UI CONTENT AREA: y=78 to y=664 (586px usable height) -->
+
+    <!-- Bottom nav placeholder -->
+    <rect x="0" y="664" width="360" height="56" rx="24" fill="#dcc8a8"/>
   </g>
 
   <!-- ANNOTATIONS (max height 220 to leave 40px gap before signature) -->
@@ -50,6 +63,6 @@
   <!-- SIGNATURE: 18px bold -->
   <text x="40" y="1060" fill="#374151" font-family="system-ui, sans-serif"
         font-size="18" font-weight="bold">
-    NNN:NN | Feature Name | ScriptHammer
+    NNN:NN | FEATURE NAME | PROJECT
   </text>
 </svg>
