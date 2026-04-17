@@ -41,6 +41,10 @@ provides:
       file: "commands/screenshots.md"
       description: "Capture standardized screenshots of wireframes (requires Python or Docker)"
 
+    - name: "speckit.wireframe.view"
+      file: "commands/view.md"
+      description: "Launch the interactive wireframe viewer in a browser (requires Python 3.9+)"
+
   config:
     - name: "wireframe-config.yml"
       template: "config-template.yml"
