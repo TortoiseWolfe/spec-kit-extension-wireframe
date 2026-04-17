@@ -1,0 +1,88 @@
+schema_version: "1.0"
+
+extension:
+  id: "wireframe"
+  name: "Wireframe Visual Feedback Loop"
+  version: "0.1.0"
+  description: "SVG wireframe generation, review, and sign-off for spec-driven development. Wireframes become spec constraints honored by /plan, /tasks, and /implement."
+  author: "TortoiseWolfe"
+  repository: "https://github.com/TortoiseWolfe/spec-kit-extension-wireframe"
+  license: "MIT"
+  homepage: "https://github.com/TortoiseWolfe/spec-kit-extension-wireframe"
+
+requires:
+  speckit_version: ">=0.6.0"
+  tools:
+    - name: "python3"
+      required: false
+      version: ">=3.9"
+    - name: "docker"
+      required: false
+
+provides:
+  commands:
+    - name: "speckit.wireframe.generate"
+      file: "commands/generate.md"
+      description: "Generate SVG wireframes from spec.md with light/dark/both themes"
+
+    - name: "speckit.wireframe.prep"
+      file: "commands/prep.md"
+      description: "Load spec context and validation rules before generating wireframes"
+
+    - name: "speckit.wireframe.review"
+      file: "commands/review.md"
+      description: "Review wireframes, classify issues as PATCH or REGENERATE, sign off approved wireframes into spec.md"
+
+    - name: "speckit.wireframe.inspect"
+      file: "commands/inspect.md"
+      description: "Cross-SVG consistency check for features with multiple wireframes"
+
+    - name: "speckit.wireframe.screenshots"
+      file: "commands/screenshots.md"
+      description: "Capture standardized screenshots of wireframes (requires Python or Docker)"
+
+  config:
+    - name: "wireframe-config.yml"
+      template: "config-template.yml"
+      description: "Wireframe extension configuration (theme defaults, output paths)"
+      required: false
+
+hooks:
+  after_specify:
+    command: "speckit.wireframe.generate"
+    optional: true
+    prompt: "Generate wireframes for this feature now?"
+    description: "Offer wireframe generation after spec creation"
+
+  before_plan:
+    command: "speckit.wireframe.review"
+    optional: true
+    prompt: "Review and sign off wireframes before planning? (signed-off wireframes become spec constraints)"
+    description: "Ensure wireframes are reviewed and signed off before plan is written"
+
+  after_implement:
+    command: "speckit.wireframe.screenshots"
+    optional: true
+    prompt: "Capture implementation screenshots and compare to signed-off wireframes?"
+    description: "Regression check: compare implementation to approved wireframes"
+
+tags:
+  - "wireframe"
+  - "visual"
+  - "design"
+  - "ui"
+  - "mockup"
+  - "svg"
+  - "feedback-loop"
+
+defaults:
+  themes:
+    frontend: "light"
+    backend: "dark"
+    hybrid: "both"
+  output:
+    svg_dir: "specs/{feature}/wireframes"
+    screenshot_dir: "specs/{feature}/wireframes/screenshots"
+  canvas:
+    width: 1920
+    height: 1080

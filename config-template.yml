@@ -1,0 +1,53 @@
+# Wireframe Extension Configuration
+# Copy this to .specify/extensions/wireframe/wireframe-config.yml to customize.
+# All settings are optional — defaults apply if not specified.
+
+# Theme defaults
+# Controls which theme gets generated when --theme is not specified.
+# The generator auto-classifies User Stories as frontend/backend/hybrid
+# and applies the matching theme from this section.
+themes:
+  # Frontend features (User Stories describe UI interactions)
+  frontend: "light"    # Options: "light", "dark"
+
+  # Backend features (User Stories describe system behavior)
+  backend: "dark"      # Options: "light", "dark"
+
+  # Hybrid features (both UI and system concerns)
+  # "both" generates one SVG per theme
+  hybrid: "both"       # Options: "light", "dark", "both"
+
+# Output paths
+# {feature} is replaced with the feature directory name (e.g. "001-user-auth")
+output:
+  svg_dir: "specs/{feature}/wireframes"
+  screenshot_dir: "specs/{feature}/wireframes/screenshots"
+  issues_suffix: ".issues.md"
+
+# Canvas dimensions (SVG viewBox)
+canvas:
+  width: 1920
+  height: 1080
+
+# Validator (Tier-2, optional Python)
+# Set enabled: true only if validate.py is installed
+validator:
+  enabled: false
+  script: ".specify/extensions/wireframe/scripts/validate.py"
+
+# Screenshots (Tier-2, optional)
+# Auto-detects python-playwright vs docker at runtime
+screenshots:
+  quadrants: true         # Capture 5 quadrant crops in addition to overview
+  resolution: "2x"        # Options: "1x", "2x" (2x recommended for review)
+
+# Sign-off block style
+# Controls how wireframe paths get written into spec.md on approval
+signoff:
+  section_heading: "## UI Mockup"
+  include_date: true
+  include_theme_label: true   # Adds "(light theme)" / "(dark theme)" per wireframe
+
+# Environment variable overrides:
+# SPECKIT_WIREFRAME_THEMES_FRONTEND=dark
+# SPECKIT_WIREFRAME_VALIDATOR_ENABLED=true

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Light theme template for UX wireframes -->
+<!-- Desktop + Mobile side-by-side layout -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 1920 1080" width="1920" height="1080">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c7ddf5"/>
+      <stop offset="100%" stop-color="#b8d4f0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+
+  <!-- CENTERED TITLE - human readable, no pipe, no page count -->
+  <text x="960" y="28" text-anchor="middle" font-family="system-ui, sans-serif"
+        font-size="18" font-weight="700" fill="#4b5563" letter-spacing="1">
+    FEATURE NAME - PAGE DESCRIPTION
+  </text>
+
+  <!-- Section labels -->
+  <text x="40" y="52" fill="#8b5cf6" font-family="system-ui, sans-serif"
+        font-size="18" font-weight="bold">DESKTOP (16:9)</text>
+  <text x="1500" y="52" fill="#d946ef" font-family="system-ui, sans-serif"
+        font-size="15" font-weight="bold">MOBILE</text>
+
+  <!-- DESKTOP (1280x720) -->
+  <g id="desktop" transform="translate(40, 60)">
+    <rect width="1280" height="720" rx="8" fill="#e8d4b8" stroke="#b8a080"/>
+    <use href="includes/header-desktop.svg#desktop-header" x="0" y="0"/>
+    <!-- UI CONTENT: y=50 to y=640 -->
+    <use href="includes/footer-desktop.svg#site-footer" x="0" y="640"/>
+  </g>
+
+  <!-- MOBILE (360x720) -->
+  <!-- CRITICAL: Content safe area y=78 to y=664 [G-034] -->
+  <g id="mobile" transform="translate(1360, 60)">
+    <rect width="360" height="720" rx="24" fill="#e8d4b8" stroke="#b8a080"/>
+    <use href="includes/header-mobile.svg#mobile-header-group" x="0" y="0"/>
+    <!-- UI CONTENT: y from 78 (after header) to 663 (before footer) -->
+    <use href="includes/footer-mobile.svg#mobile-bottom-nav" x="0" y="664"/>
+  </g>
+
+  <!-- ANNOTATIONS (max height 220 to leave 40px gap before signature) -->
+  <g id="annotations" transform="translate(40, 800)">
+    <rect width="1840" height="220" rx="8" fill="#dcc8a8" stroke="#b8a080"/>
+    <!-- Callout explanations here - NO Legend/Coverage/Integration rows -->
+  </g>
+
+  <!-- SIGNATURE: 18px bold -->
+  <text x="40" y="1060" fill="#374151" font-family="system-ui, sans-serif"
+        font-size="18" font-weight="bold">
+    NNN:NN | Feature Name | ScriptHammer
+  </text>
+</svg>
