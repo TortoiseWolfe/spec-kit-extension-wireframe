@@ -760,7 +760,7 @@
       project_name: "Project",
       project_repo: "",
       extension_repo: "https://github.com/TortoiseWolfe/spec-kit-extension-wireframe",
-      portfolio_url: "https://github.com/TortoiseWolfe",
+      portfolio_url: "https://turtlewolfe.com",
       sponsor_url: "https://github.com/sponsors/TortoiseWolfe"
     };
 
@@ -1368,8 +1368,8 @@
         }
       }
 
-      // Legend drawer: L to toggle
-      if (e.key === 'l' || e.key === 'L') {
+      // Legend drawer: L or ? to toggle
+      if (e.key === 'l' || e.key === 'L' || e.key === '?') {
         e.preventDefault();
         toggleLegendDrawer();
         return;

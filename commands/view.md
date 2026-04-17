@@ -66,16 +66,39 @@ Wrote manifest: .specify/extensions/wireframe/viewer/wireframes-manifest.json
 
 ### Step 3: Write project config
 
-Create `.specify/extensions/wireframe/viewer/viewer-config.json` with the current project name (derived from the current directory basename if not otherwise set):
+Build `.specify/extensions/wireframe/viewer/viewer-config.json` from what the project exposes. Two facts get captured:
+
+**Project name** — current directory basename (e.g. `~/repos/my-app` → `"my-app"`):
+
+```bash
+PROJECT_NAME=$(basename "$PWD")
+```
+
+**Project repo URL** — derive from `origin` remote if this is a git repo. Normalize SSH-form remotes to HTTPS so browsers can open them:
+
+```bash
+PROJECT_REPO=""
+if REMOTE=$(git remote get-url origin 2>/dev/null); then
+  case "$REMOTE" in
+    git@github.com:*)       PROJECT_REPO="https://github.com/${REMOTE#git@github.com:}" ;;
+    git@*:*)                PROJECT_REPO="$REMOTE" ;;  # leave non-GitHub SSH alone
+    http*|https*)           PROJECT_REPO="$REMOTE" ;;
+  esac
+  # Strip trailing .git
+  PROJECT_REPO="${PROJECT_REPO%.git}"
+fi
+```
+
+Write the JSON:
 
 ```json
 {
-  "project_name": "<project-dir-basename>",
-  "project_repo": ""
+  "project_name": "<PROJECT_NAME>",
+  "project_repo": "<PROJECT_REPO>"
 }
 ```
 
-If a repo URL can be inferred (e.g. from `git remote get-url origin`), include it. Otherwise leave empty — the viewer degrades gracefully.
+If there's no git repo (or no `origin` remote), `project_repo` stays empty — the viewer degrades gracefully and the Project footer link becomes a no-op `#` until the user configures one.
 
 ### Step 4: Launch the server
 
