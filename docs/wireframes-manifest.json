@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "features": [
+    {
+      "id": "001-user-login",
+      "label": "001 - User Login",
+      "wireframes": [
+        {
+          "path": "001-user-login/wireframes/01-user-login.svg",
+          "title": "USER LOGIN - SIGN IN PAGE",
+          "status": "approved",
+          "theme": "light",
+          "svg_file": "01-user-login.svg"
+        },
+        {
+          "path": "001-user-login/wireframes/02-auth-flow.svg",
+          "title": "USER LOGIN - AUTHENTICATION FLOW",
+          "status": "approved",
+          "theme": "dark",
+          "svg_file": "02-auth-flow.svg"
+        }
+      ]
+    }
+  ],
+  "wireframes": [
+    {
+      "path": "/spec-kit-extension-wireframe/sample-wireframes/01-user-login.svg",
+      "title": "USER LOGIN - SIGN IN PAGE",
+      "feature": "001-user-login",
+      "feature_label": "001 - User Login",
+      "status": "approved",
+      "theme": "light"
+    },
+    {
+      "path": "/spec-kit-extension-wireframe/sample-wireframes/02-auth-flow.svg",
+      "title": "USER LOGIN - AUTHENTICATION FLOW",
+      "feature": "001-user-login",
+      "feature_label": "001 - User Login",
+      "status": "approved",
+      "theme": "dark"
+    }
+  ],
+  "total": 2
+}
