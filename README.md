@@ -1,10 +1,19 @@
 # spec-kit-extension-wireframe
 
-**Visual feedback loop for Spec-Driven Development.** Generate SVG wireframes from your specs, review them for issues, sign them off, and have `/speckit.plan`, `/speckit.tasks`, and `/speckit.implement` automatically honor your signed-off wireframes as visual constraints.
+[![Release](https://img.shields.io/github/v/release/TortoiseWolfe/spec-kit-extension-wireframe)](https://github.com/TortoiseWolfe/spec-kit-extension-wireframe/releases)
+[![License](https://img.shields.io/github/license/TortoiseWolfe/spec-kit-extension-wireframe)](LICENSE)
+[![Built by TortoiseWolfe](https://img.shields.io/badge/built%20by-TortoiseWolfe-01557f)](https://turtlewolfe.com)
+[![Sponsor](https://img.shields.io/badge/%E2%98%95-buy%20me%20a%20coffee-8b5cf6)](https://github.com/sponsors/TortoiseWolfe)
 
-## Why
+> **Spec-Driven Development catches logic errors. It doesn't catch "this doesn't look right."**
+>
+> By the time you've planned, tasked, and started implementing, you're painting a picture you never approved. This extension adds the visual sign-off step SDD is missing: generate wireframes from the spec, iterate on them, sign them off — and then `/plan`, `/tasks`, and `/implement` automatically honor what you approved.
 
-Spec-Driven Development is great at turning natural language into code. It's less great at catching "this doesn't look right" before implementation is already written. This extension adds a visual sign-off step to the SDD workflow:
+👉 **See it live:** https://tortoisewolfe.github.io/spec-kit-extension-wireframe/
+
+## How it works
+
+Spec-Driven Development already treats `spec.md` as the source of truth — every downstream command (`/plan`, `/tasks`, `/implement`) reloads it as constraint context. This extension piggybacks on that: on sign-off, approved wireframe paths get written into `spec.md` under a `## UI Mockup` section. From that moment, the visual becomes part of the spec. No changes to core Spec Kit required.
 
 ```
 /speckit.specify
@@ -24,11 +33,9 @@ Spec-Driven Development is great at turning natural language into code. It's les
 /speckit.wireframe.screenshots ← NEW: regression check vs signed-off wireframes
 ```
 
-**The binding mechanism is simple:** on sign-off, approved wireframe paths get written into `spec.md` under a `## UI Mockup` section. Because every downstream SpecKit command already reads `spec.md` as constraint context, the wireframe becomes a visual benchmark without any changes to core SpecKit commands.
-
 ## Installation
 
-### Via catalog (recommended, once published)
+### Via catalog (once [spec-kit#2262](https://github.com/github/spec-kit/pull/2262) merges)
 
 ```bash
 specify extension add wireframe
