@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-04-21
+
+### Fixed
+
+- Corrected slash-command references in `extension.yml` description and `README.md` to use the `/speckit.`-prefixed names (`/speckit.plan`, `/speckit.tasks`, `/speckit.implement`) instead of the unprefixed forms. The unprefixed names never existed in published Spec Kit releases; the previous text would have misled users following the docs. Resolves #1.
+
 ## [0.1.0] - 2026-04-17
 
 ### Added
@@ -37,5 +43,6 @@ Supersedes [github/spec-kit#1410](https://github.com/github/spec-kit/pull/1410),
 
 ---
 
-[Unreleased]: https://github.com/TortoiseWolfe/spec-kit-extension-wireframe/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/TortoiseWolfe/spec-kit-extension-wireframe/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/TortoiseWolfe/spec-kit-extension-wireframe/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/TortoiseWolfe/spec-kit-extension-wireframe/releases/tag/v0.1.0

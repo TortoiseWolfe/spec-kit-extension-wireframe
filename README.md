@@ -7,13 +7,13 @@
 
 > **Spec-Driven Development catches logic errors. It doesn't catch "this doesn't look right."**
 >
-> By the time you've planned, tasked, and started implementing, you're painting a picture you never approved. This extension adds the visual sign-off step SDD is missing: generate wireframes from the spec, iterate on them, sign them off — and then `/plan`, `/tasks`, and `/implement` automatically honor what you approved.
+> By the time you've planned, tasked, and started implementing, you're painting a picture you never approved. This extension adds the visual sign-off step SDD is missing: generate wireframes from the spec, iterate on them, sign them off — and then `/speckit.plan`, `/speckit.tasks`, and `/speckit.implement` automatically honor what you approved.
 
 👉 **See it live:** https://tortoisewolfe.github.io/spec-kit-extension-wireframe/
 
 ## How it works
 
-Spec-Driven Development already treats `spec.md` as the source of truth — every downstream command (`/plan`, `/tasks`, `/implement`) reloads it as constraint context. This extension piggybacks on that: on sign-off, approved wireframe paths get written into `spec.md` under a `## UI Mockup` section. From that moment, the visual becomes part of the spec. No changes to core Spec Kit required.
+Spec-Driven Development already treats `spec.md` as the source of truth — every downstream command (`/speckit.plan`, `/speckit.tasks`, `/speckit.implement`) reloads it as constraint context. This extension piggybacks on that: on sign-off, approved wireframe paths get written into `spec.md` under a `## UI Mockup` section. From that moment, the visual becomes part of the spec. No changes to core Spec Kit required.
 
 ```
 /speckit.specify
