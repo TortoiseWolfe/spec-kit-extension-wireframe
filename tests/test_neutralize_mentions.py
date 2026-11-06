@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SCRIPT = ROOT / "scripts" / "neutralize-mentions.py"
-Z = "‍"
+Z = "\u200d"
 
 # What GitHub treats as a mention: "@" not preceded by an ASCII word char, then
 # a letter or digit (a simplified copy of its own mention rule).
