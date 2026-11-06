@@ -2,6 +2,7 @@
 
 Run: python3 -m unittest discover -s tests -v
 """
+import html
 import importlib.util
 import re
 import subprocess
@@ -13,9 +14,9 @@ ROOT = Path(__file__).resolve().parent.parent
 SCRIPT = ROOT / "scripts" / "neutralize-mentions.py"
 Z = "‍"
 
-# What GitHub treats as a mention: "@" not preceded by a word char, then a
-# letter or digit (a simplified copy of its own mention rule).
-GITHUB_MENTION = re.compile(r"(?<![\w])@[A-Za-z0-9]")
+# What GitHub treats as a mention: "@" not preceded by an ASCII word char, then
+# a letter or digit (a simplified copy of its own mention rule).
+GITHUB_MENTION = re.compile(r"(?<![A-Za-z0-9_])@[A-Za-z0-9]")
 
 
 def load():
@@ -26,16 +27,12 @@ def load():
     return mod
 
 
-def strip_urls(s):
-    return re.sub(r"https?://[^\s<>|`\"')\]]+", "", s)
-
-
 class NeutralizeMentions(unittest.TestCase):
     def setUp(self):
         self.fn = load().neutralize
 
     def assertNoMention(self, text):
-        out = strip_urls(self.fn(text))
+        out = self.fn(text)
         self.assertIsNone(GITHUB_MENTION.search(out), out)
 
     def test_table_cell_author(self):
@@ -76,7 +73,7 @@ class NeutralizeMentions(unittest.TestCase):
         self.assertNoMention("<!-- x --> @victim <!-- y -->")
         self.assertNoMention("<!-- @victim -->")
 
-    def test_url_cannot_swallow_a_following_mention(self):
+    def test_url_does_not_hide_a_mention(self):
         for s in [
             "https://x.test/a|@victim",
             "https://x.test/a)@victim",
@@ -85,15 +82,38 @@ class NeutralizeMentions(unittest.TestCase):
             "https://x.test/a`@victim",
             "https://x.test/a<@victim",
             "https://x.test/a @victim",
+            "https://medium.com/@victim/post",
+            "https://u:p@host.test/@victim",
         ]:
             self.assertNoMention(s)
 
-    def test_email_address_is_untouched(self):
-        s = "write to someone@example.com"
+    def test_non_ascii_before_at_does_not_hide_a_mention(self):
+        for s in ["é@victim", "日本@victim", "ß@victim"]:
+            self.assertNoMention(s)
+
+    def test_html_character_references_do_not_make_a_mention(self):
+        for s in [
+            "&#64;victim",
+            "&#x40;victim",
+            "&#X40;victim",
+            "&commat;victim",
+            "@&#118;ictim",
+            "@&#x76;ictim",
+            "&#64;&#118;ictim",
+            "&#38;#64;victim",
+            "&#0064;victim",
+        ]:
+            out = self.fn(s)
+            # no reference survives: each "&" that starts one is now "&amp;"
+            self.assertIsNone(re.search(r"&(?!amp;)(#\w+|\w+);", out), out)
+            self.assertNoMention(html.unescape(out))
+
+    def test_ampersand_text_still_reads_the_same(self):
+        s = "R&D and AT&T &amp; co & more"
         self.assertEqual(self.fn(s), s)
 
-    def test_url_with_at_is_untouched(self):
-        s = "see https://medium.com/@someone/post and https://x.test/a@b"
+    def test_email_address_is_untouched(self):
+        s = "write to someone@example.com"
         self.assertEqual(self.fn(s), s)
 
     def test_double_at_does_not_hide_a_mention(self):

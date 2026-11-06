@@ -16,34 +16,34 @@ never notifies. It does not try to understand Markdown (code spans, fences,
 comments), because a filter that guesses the context can be fooled by odd
 backticks; this one fails closed.
 
-Left alone: email addresses (a letter or digit before the "@"), and "@"
-characters inside a plain https:// link, which GitHub turns into a link and
-never into a mention.
+It also escapes HTML character references (for example &#64;name or
+&commat;name), which a browser decodes into a live "@name". The "&" becomes
+"&amp;", so the reference shows as literal text.
+
+Left alone: email addresses (an ASCII letter, digit or underscore right before
+the "@"). Handles inside links are changed too: a link may stop working, which
+is cheaper than guessing where a link ends.
 
 Running it twice gives the same result.
 """
 import re
 import sys
 
-ZWJ = "‍"
+ZWJ = "\u200d"
 
-# A bare URL: GitHub links it, and handles inside a link are not mentions.
-_URL = re.compile(r"https?://[^\s<>|`\"')\]]+")
+# "@" that starts a handle. GitHub's rule is ASCII, so ours is too: anything
+# that is not an ASCII letter, digit or underscore before the "@" counts as a
+# boundary, and a handle can follow it.
+_MENTION = re.compile(r"(?<![A-Za-z0-9_])@(?=[A-Za-z0-9])")
 
-# "@" that starts a handle: not part of an email (word char before) and
-# followed by a letter or digit.
-_MENTION = re.compile(r"(?<!\w)@(?=[A-Za-z0-9])")
+# HTML character references: &#64; &#x40; &commat; and so on. "&amp;" itself is
+# skipped so a second run changes nothing.
+_ENTITY = re.compile(r"&(?!amp;)(?=#[0-9]+;|#[xX][0-9A-Fa-f]+;|[A-Za-z][A-Za-z0-9]*;)")
 
 
 def neutralize(text: str) -> str:
-    out = []
-    pos = 0
-    for m in _URL.finditer(text):
-        out.append(_MENTION.sub("@" + ZWJ, text[pos : m.start()]))
-        out.append(m.group(0))
-        pos = m.end()
-    out.append(_MENTION.sub("@" + ZWJ, text[pos:]))
-    return "".join(out)
+    text = _ENTITY.sub("&amp;", text)
+    return _MENTION.sub("@" + ZWJ, text)
 
 
 def main() -> int:
