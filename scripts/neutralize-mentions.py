@@ -16,9 +16,9 @@ never notifies. It does not try to understand Markdown (code spans, fences,
 comments), because a filter that guesses the context can be fooled by odd
 backticks; this one fails closed.
 
-It also escapes HTML character references (for example &#64;name or
-&commat;name), which a browser decodes into a live "@name". The "&" becomes
-"&amp;", so the reference shows as literal text.
+It also escapes every "&" as "&amp;", because a browser decodes HTML character
+references (for example &#64;name, &commat;name or even &#64name) into a live
+"@name". After escaping, they show as literal text and the page looks the same.
 
 Left alone: email addresses (an ASCII letter, digit or underscore right before
 the "@"). Handles inside links are changed too: a link may stop working, which
@@ -36,13 +36,16 @@ ZWJ = "\u200d"
 # boundary, and a handle can follow it.
 _MENTION = re.compile(r"(?<![A-Za-z0-9_])@(?=[A-Za-z0-9])")
 
-# HTML character references: &#64; &#x40; &commat; and so on. "&amp;" itself is
-# skipped so a second run changes nothing.
-_ENTITY = re.compile(r"&(?!amp;)(?=#[0-9]+;|#[xX][0-9A-Fa-f]+;|[A-Za-z][A-Za-z0-9]*;)")
+# Every "&" that is not already "&amp;". Browsers decode HTML character
+# references (&#64;, &#x40;, &commat;) and even some without the closing ";"
+# (&#64victim), so we do not try to recognise them: all "&" are escaped, and
+# the page shows the same text. "&amp;" is skipped so a second run changes
+# nothing.
+_AMP = re.compile(r"&(?!amp;)")
 
 
 def neutralize(text: str) -> str:
-    text = _ENTITY.sub("&amp;", text)
+    text = _AMP.sub("&amp;", text)
     return _MENTION.sub("@" + ZWJ, text)
 
 

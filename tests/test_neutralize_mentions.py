@@ -102,15 +102,19 @@ class NeutralizeMentions(unittest.TestCase):
             "&#64;&#118;ictim",
             "&#38;#64;victim",
             "&#0064;victim",
+            "&#64victim",
+            "&#x40victim",
+            "<div>&#64victim</div>",
+            "&commatvictim",
         ]:
             out = self.fn(s)
-            # no reference survives: each "&" that starts one is now "&amp;"
-            self.assertIsNone(re.search(r"&(?!amp;)(#\w+|\w+);", out), out)
+            # every "&" is now "&amp;", so nothing decodes
+            self.assertIsNone(re.search(r"&(?!amp;)", out), out)
             self.assertNoMention(html.unescape(out))
 
-    def test_ampersand_text_still_reads_the_same(self):
-        s = "R&D and AT&T &amp; co & more"
-        self.assertEqual(self.fn(s), s)
+    def test_ampersand_text_renders_the_same(self):
+        out = self.fn("R&D and AT&T &amp; co & more")
+        self.assertEqual(html.unescape(out), "R&D and AT&T & co & more")
 
     def test_email_address_is_untouched(self):
         s = "write to someone@example.com"
